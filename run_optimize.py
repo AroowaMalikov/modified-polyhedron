@@ -22,7 +22,7 @@ setattr(TkDrawer, 'draw_line', draw_line)
 tk = TkDrawer()
 
 try:
-    for name in ["ccc", "cube", "box", "king", "cow"]:
+    for name in ["ccc", "cube", "box", "king", "cow", 'babem']:
         print("=======================================================")
         print(f"Начало работы с полиэдром '{name}'")
         start_init_time = time()
