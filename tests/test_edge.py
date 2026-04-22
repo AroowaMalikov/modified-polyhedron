@@ -1,7 +1,7 @@
 import unittest
 from math import isclose
 from common.r3 import R3
-from shadow.polyedr import Segment, Edge, Facet
+from modification.polyedr import Segment, Edge, Facet
 from tests.matchers import R3ApproxMatcher, SegmentApproxMatcher
 
 
