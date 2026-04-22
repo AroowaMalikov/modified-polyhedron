@@ -42,6 +42,9 @@ class R3:
             self.z * other.x - self.x * other.z,
             self.x * other.y - self.y * other.x)
 
+    def xy(self):
+        """Возвращает проекцию на плоскость XOY как кортеж (x, y)"""
+        return (self.x, self.y)
 
 if __name__ == "__main__":  # pragma: no cover
     x = R3(1.0, 1.0, 1.0)

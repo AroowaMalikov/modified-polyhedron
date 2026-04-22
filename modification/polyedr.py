@@ -87,6 +87,7 @@ class Facet:
 
     def __init__(self, vertexes):
         self.vertexes = vertexes
+        self.area = self.facet_area()
 
     # «Вертикальна» ли грань?
     def is_vertical(self):
@@ -116,6 +117,32 @@ class Facet:
         return sum(self.vertexes, R3(0.0, 0.0, 0.0)) * \
             (1.0 / len(self.vertexes))
 
+    def condition(self):
+        flag_center = False
+        flag_vertex = False
+        if R3.xy(self.center())[0] ** 2 + R3.xy(self.center())[1] ** 2 > 1:
+            flag_center = True
+        for i in range(len(self.vertexes)):
+            if R3.xy(self.vertexes[i])[0] ** 2 + R3.xy(self.vertexes[i])[1] ** 2 > 1:
+                flag_vertex = True
+                break
+        if flag_vertex == True and flag_center == True:
+            return True
+        else:
+            return False
+
+    # Площадь треугольника (вспомогательный метод)
+    @staticmethod
+    def _area(a, b, c):
+        return abs(0.5 * ((a[0] - c[0]) * (b[1] - c[1]) - (a[1] - c[1]) * (b[0] - c[0])))
+
+
+    def facet_area(self):
+        sum_area = 0
+        if self.condition() == True:
+            for i in range(len(self.vertexes) - 1):
+                sum_area += self._area(R3.xy(self.vertexes[0]), R3.xy(self.vertexes[i]), R3.xy(self.vertexes[i + 1]))
+        return sum_area
 
 class Polyedr:
     """ Полиэдр """
@@ -162,6 +189,12 @@ class Polyedr:
     # Метод изображения полиэдра
     def draw(self, tk):  # pragma: no cover
         tk.clean()
+        polyedr_area = 0.0
+        for f in self.facets:
+            if f.condition():
+                polyedr_area += f.area
+        print(f'Площадь "хороших граней": {polyedr_area}')
+        polyedr_area = 0
         for e in self.edges:
             for f in self.facets:
                 e.shadow(f)
